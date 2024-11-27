@@ -400,90 +400,111 @@ camera.CameraSubject = originalCameraSubject
 
 local ToolName = "The Step Of Heavenly"
 local function Script()
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-local camera = game.Workspace.CurrentCamera  -- Reference to the camera
-local teleportDuration = 2  -- Duration of the teleportation effect (in seconds)
-local speed = 50            -- Speed of teleportation (higher = faster)
-local radius = 35           -- Radius of the teleportation circle
-local maxDistance = 50      -- Maximum distance (15 meters) to teleport
+    local camera = game.Workspace.CurrentCamera  -- Reference to the camera
+    local teleportDuration = 2  -- Duration of the teleportation effect (in seconds)
+    local speed = 100            -- Speed of teleportation (higher = faster)
+    local radius = 35           -- Radius of the teleportation circle
+    local maxDistance = 50      -- Maximum distance (15 meters) to teleport
 
--- Function to find the nearest enemy within a specified distance
-local function findNearestEnemy()
-    local closestPlayer = nil
-    local closestDistance = math.huge  -- Start with a very large distance
+    -- Function to find the nearest enemy within a specified distance
+    local function findNearestEnemy()
+        local closestPlayer = nil
+        local closestDistance = math.huge  -- Start with a very large distance
 
-    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-        if otherPlayer ~= player and otherPlayer.Character then
-            local otherHumanoid = otherPlayer.Character:FindFirstChild("Humanoid")
-            local otherHumanoidRootPart = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
-            
-            -- Check if the player is alive (Humanoid health > 0) and within the max distance
-            if otherHumanoid and otherHumanoidRootPart and otherHumanoid.Health > 0 then
-                local distance = (humanoidRootPart.Position - otherHumanoidRootPart.Position).Magnitude
-                if distance < closestDistance and distance <= maxDistance then
-                    closestDistance = distance
-                    closestPlayer = otherPlayer
+        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+            if otherPlayer ~= player and otherPlayer.Character then
+                local otherHumanoid = otherPlayer.Character:FindFirstChild("Humanoid")
+                local otherHumanoidRootPart = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+                
+                -- Check if the player is alive (Humanoid health > 0) and within the max distance
+                if otherHumanoid and otherHumanoidRootPart and otherHumanoid.Health > 0 then
+                    local distance = (humanoidRootPart.Position - otherHumanoidRootPart.Position).Magnitude
+                    if distance < closestDistance and distance <= maxDistance then
+                        closestDistance = distance
+                        closestPlayer = otherPlayer
+                    end
                 end
             end
         end
+
+        return closestPlayer
     end
 
-    return closestPlayer
-end
-
--- Function to lock the camera to the enemy and zoom out
-local function lockCameraToEnemy(enemy)
-    local enemyHumanoidRootPart = enemy.Character:WaitForChild("HumanoidRootPart")
-    
-    -- Set the camera's position to focus on the enemy and zoom out by increasing the offset
-    camera.CFrame = CFrame.new(enemyHumanoidRootPart.Position + Vector3.new(0, 50, 0), enemyHumanoidRootPart.Position)  -- Zoom out by adjusting the offset
-    camera.CameraType = Enum.CameraType.Scriptable  -- Lock camera to scriptable mode
-end
-
--- Function to move the player in a circular motion around the enemy
-local function teleportInCircleAroundEnemy(enemy)
-    local startTime = tick()
-    local angle = 0  -- Starting angle for the circular motion
-
-    -- Lock the camera to the enemy with zoom
-    lockCameraToEnemy(enemy)
-
-    while tick() - startTime < teleportDuration do
-        -- Continuously track the enemy's current position
+    -- Function to lock the camera to the enemy and zoom out
+    local function lockCameraToEnemy(enemy)
         local enemyHumanoidRootPart = enemy.Character:WaitForChild("HumanoidRootPart")
-        local enemyPosition = enemyHumanoidRootPart.Position
         
-        -- Calculate the new position using polar coordinates (circular motion) around the enemy
-        local x = enemyPosition.X + math.cos(angle) * radius
-        local z = enemyPosition.Z + math.sin(angle) * radius
-        
-        -- Update the character's position
-        humanoidRootPart.CFrame = CFrame.new(x, enemyPosition.Y, z)
+        -- Set the camera's position to focus on the enemy and zoom out by increasing the offset
+        camera.CFrame = CFrame.new(enemyHumanoidRootPart.Position + Vector3.new(0, 60, 0), enemyHumanoidRootPart.Position)  -- Zoom out by adjusting the offset
+        camera.CameraType = Enum.CameraType.Scriptable  -- Lock camera to scriptable mode
+    end
 
-        -- Increase the angle for the next position, speed controls the rate of change
-        angle = angle + speed * 0.1  -- This value controls how fast the character moves in a circle
+    -- Function to move the player in a circular motion around the enemy
+    local function teleportInCircleAroundEnemy(enemy)
+        local startTime = tick()
+        local angle = 0  -- Starting angle for the circular motion
+        local lastPosition = humanoidRootPart.Position  -- To remember the last position before teleporting
 
-        -- Lock the camera to the moving enemy
+        -- Lock the camera to the enemy with zoom
         lockCameraToEnemy(enemy)
 
-        -- Wait a small amount to make the movement smooth
-        wait(0.02)  -- This controls the smoothness and speed of the teleport
+        -- Create and show VFX only if the teleportation is activated
+        local Test = game:GetService("ReplicatedStorage").Resources.NinjaUlt.Start_Effects.Particles.Low
+        local test = Test:Clone()
+        test.Parent = character:WaitForChild("Torso")  -- Add the VFX to the player's torso
+
+        -- Emit particles when teleport starts
+        for _, child in ipairs(test:GetChildren()) do
+            if child:IsA("ParticleEmitter") then
+                child:Emit(25)
+                child.Enabled = true
+            end
+        end
+
+        while tick() - startTime < teleportDuration do
+            -- Continuously track the enemy's current position
+            local enemyHumanoidRootPart = enemy.Character:WaitForChild("HumanoidRootPart")
+            local enemyPosition = enemyHumanoidRootPart.Position
+            
+            -- Calculate the new position using polar coordinates (circular motion) around the enemy
+            local x = enemyPosition.X + math.cos(angle) * radius
+            local z = enemyPosition.Z + math.sin(angle) * radius
+            
+            -- Update the character's position
+            humanoidRootPart.CFrame = CFrame.new(x, enemyPosition.Y, z)
+
+            -- Increase the angle for the next position, speed controls the rate of change
+            angle = angle + speed * 0.1  -- This value controls how fast the character moves in a circle
+
+            -- Lock the camera to the moving enemy
+            lockCameraToEnemy(enemy)
+
+            -- Wait a small amount to make the movement smooth
+            wait(0.02)  -- This controls the smoothness and speed of the teleport
+        end
+
+        -- Teleport the player to the enemy after the circle effect ends
+        local enemyHumanoidRootPart = enemy.Character:WaitForChild("HumanoidRootPart")
+        humanoidRootPart.CFrame = CFrame.new(enemyHumanoidRootPart.Position)  -- Teleport to the enemy's position
+
+        -- Restore the camera to its normal behavior after teleportation ends
+        camera.CameraType = Enum.CameraType.Custom  -- Restore to default camera behavior
+
+        -- Destroy the VFX (particle effect) after teleportation ends
+        test:Destroy()
     end
 
-    -- Restore the camera to its normal behavior after teleportation ends
-    camera.CameraType = Enum.CameraType.Custom  -- Restore to default camera behavior
-end
-
--- Find the nearest enemy that is alive and within 15 meters and teleport around them
-local nearestEnemy = findNearestEnemy()
-if nearestEnemy then
-    teleportInCircleAroundEnemy(nearestEnemy)
-else
-    print("No alive enemy found within 15 meters to teleport around.")
-end
+    -- Find the nearest enemy that is alive and within 15 meters and teleport around them
+    local nearestEnemy = findNearestEnemy()
+    if nearestEnemy then
+        teleportInCircleAroundEnemy(nearestEnemy)
+    else
+        print("No alive enemy found within 15 meters to teleport around.")
+    end
 end
 
 -- don't change anything here unless you know
@@ -493,12 +514,13 @@ t.Name = ToolName
 t.RequiresHandle = false -- like holding an object only if you put a part named "Handle" but it's going to be client
 t.CanBeDropped = false
 t.Parent = game.Players.LocalPlayer.Backpack
+
 t.Activated:Connect(function() -- instead of Activated you can do Equipped or Unequipped
-if not fg then
-fg = true
-Script()
-fg = false
-end
+    if not fg then
+        fg = true
+        Script()
+        fg = false
+    end
 end)
 
 coroutine.wrap(function()
@@ -973,234 +995,6 @@ end
 
 
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
-
-
-local animationId = 15145462680
-
-
-local player = game.Players.LocalPlayer
-
-local character = player.Character or player.CharacterAdded:Wait()
-
-local humanoid = character:WaitForChild("Humanoid")
-
-
-local function onAnimationPlayed(animationTrack)
-
-    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
-
-
-local p = game.Players.LocalPlayer
-
-local Humanoid = p.Character:WaitForChild("Humanoid")
-
-
-for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
-
-    animTrack:Stop()
-
-end
-
-
-local AnimAnim = Instance.new("Animation")
-
-AnimAnim.AnimationId = "rbxassetid://13904623751"
-
-local Anim = Humanoid:LoadAnimation(AnimAnim)
-
-
-local startTime = 0
-
-
-Anim:Play()
-
-Anim:AdjustSpeed(1)
-
-Anim.TimePosition = startTime
-
-Anim:AdjustSpeed(0.8)
-
-delay(1.8, function()
-
-    Anim:Stop()
-
-task.wait(0)
-
-local AnimAnim2 = Instance.new("Animation")
-
-AnimAnim2.AnimationId = "rbxassetid://18464372850"
-
-local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
-
-
-local startTime = 1.9
-
-
-Anim:Stop()
-
-Anim2:Play()
-
-Anim2:AdjustSpeed(0)
-
-Anim2.TimePosition = startTime
-
-Anim2:AdjustSpeed(1.2)
-
-end)
-
-Wait(2.5)
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local torso = character:WaitForChild("HumanoidRootPart")
-
-
-local function createRock(size)
-    local rock = Instance.new("Part")
-    rock.Size = size
-    rock.Shape = Enum.PartType.Block
-    rock.Anchored = false
-    rock.CanCollide = true
-    rock.Material = Enum.Material.Slate
-    rock.BrickColor = BrickColor.Gray()
-    rock.Parent = workspace
-
-    local bodyAngularVelocity = Instance.new("BodyAngularVelocity")
-    bodyAngularVelocity.MaxTorque = Vector3.new(4000, 4000, 4000)
-    bodyAngularVelocity.P = 3000
-    bodyAngularVelocity.Parent = rock
-
-    local randomDirection = Vector3.new(
-        math.random() * 10 - 11,
-        math.random() * 23 - 10,
-        math.random() * 19 - 12
-    ).unit
-    local spinSpeed = math.random(50, 150)
-    bodyAngularVelocity.AngularVelocity = randomDirection * spinSpeed
-
-    return rock, bodyAngularVelocity
-end
-
-local function rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
-    local rocks = {}
-    local numberOfRocks = 12
-    local radius = 5
-    local rockHeight = 0,6
-
-    for i = 1, numberOfRocks do
-        local angle = (i / numberOfRocks) * math.pi * 2
-        local size = Vector3.new(0.88, 0.56, 0.79)
-        if i % 2 == 0 then
-            size = Vector3.new(0.70, 0.47, 0.50)
-        end
-        local rock, bodyAngularVelocity = createRock(size)
-        local offsetX = math.cos(angle) * radius
-        local offsetZ = math.sin(angle) * radius
-
-        rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
-        table.insert(rocks, { rock = rock, bodyAngularVelocity = bodyAngularVelocity })
-    end
-
-    local runService = game:GetService("RunService")
-    local startTime = tick()
-    local connection
-    connection = runService.RenderStepped:Connect(function()
-        local elapsed = tick() - startTime
-        local angleStep = (elapsed * rotationSpeed) % (math.pi * 2)
-
-        if elapsed >= 0.6 then
-            rotationSpeed = math.max(rotationSpeed * 0.5, 1)
-        end
-
-        for i, rockData in ipairs(rocks) do
-            local rock = rockData.rock
-            local angle = (i / numberOfRocks) * math.pi * 2 + angleStep
-            local offsetX = math.cos(angle) * radius
-            local offsetZ = math.sin(angle) * radius
-            rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
-        end
-
-        if elapsed >= fallDelay then
-            connection:Disconnect()
-            for _, rockData in ipairs(rocks) do
-                local rock = rockData.rock
-                local bodyAngularVelocity = rockData.bodyAngularVelocity
-                if bodyAngularVelocity then
-                    bodyAngularVelocity:Destroy()
-                end
-
-                local tangentialVelocity = launchSpeed * (1 + math.random(-10, 10) / 100)  
-                local bodyVelocity = Instance.new("BodyVelocity")
-                local outwardDirection = (rock.Position - torso.Position).unit
-                local randomHorizontal = Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)) * 0.3  
-                bodyVelocity.Velocity = (outwardDirection + randomHorizontal).unit * tangentialVelocity + Vector3.new(0, verticalForce, 0)
-                bodyVelocity.P = 1000
-                bodyVelocity.Parent = rock
-
-                local dust = Instance.new("ParticleEmitter")
-                dust.Texture = "rbxassetid://3527866534"  
-                dust.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 0)})
-                dust.Lifetime = NumberRange.new(0.5, 1)
-                dust.Rate = 100
-                dust.Speed = NumberRange.new(5, 10)
-                dust.Parent = rock
-                dust:Emit(5)
-
-                rock.Touched:Connect(function(hit)
-                    if hit:IsA("Terrain") or (hit:IsA("BasePart") and hit.CanCollide) then
-                        bodyVelocity:Destroy()
-
-                        local glideVelocity = outwardDirection * slideSpeed
-                        local glideStartTime = tick()
-
-                        local glideConnection
-                        glideConnection = runService.RenderStepped:Connect(function()
-                            local glideElapsed = tick() - glideStartTime
-                            if glideElapsed >= slideDuration then
-                                glideConnection:Disconnect()
-                                rock.Velocity = Vector3.new(0, 0, 0)
-
-
-                                local shrinkStartTime = tick()
-                                local shrinkConnection
-                                shrinkConnection = runService.RenderStepped:Connect(function()
-                                    local shrinkElapsed = tick() - shrinkStartTime
-                                    local scale = math.max(0, rock.Size.X * (1 - (shrinkElapsed / shrinkDuration)))
-                                    rock.Size = Vector3.new(scale, scale, scale)
-                                    rock.Position = rock.Position - Vector3.new(0, (rock.Size.Y - scale) / 2, 0)
-
-                                    if scale <= 0 then
-                                        shrinkConnection:Disconnect()
-                                        rock:Destroy()
-                                    end
-                                end)
-                            else
-                                rock.Velocity = glideVelocity * (1 - (glideElapsed / slideDuration))
-                            end
-                        end)
-                    end
-                end)
-            end
-        end
-    end)
-end
-
-
-local rotationSpeed = 0
-local fallDelay = 0
-local launchSpeed = 40
-local verticalForce = -50
-local spinSpeed = 100
-local slideSpeed = 30
-local slideDuration = 0.6
-local shrinkDuration = 2.5
-
-rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
-
-
-
-
-    endhumanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
 
 local animationId = 15145462680
