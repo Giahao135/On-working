@@ -1200,6 +1200,304 @@ rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, sli
 
 
 
+    endhumanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 15145462680
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://13904623751"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(1)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(0.8)
+
+delay(1.8, function()
+
+    Anim:Stop()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://18464372850"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 1.9
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(1.2)
+
+end)
+
+Wait(0.3)
+
+--Variables
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = game.Workspace.CurrentCamera
+local initialShakeDistance = 30 -- Starting distance for the shake (in studs)
+local shakeSpeed = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005 -- Time between each shake (in seconds)
+local shakeTimes = 15 -- Number of shakes
+local distanceDecay = initialShakeDistance / shakeTimes -- How much the shake distance decreases each time
+
+-- ParticleEmitter for the shaking teleport effect (optional)
+local teleportParticle = Instance.new("ParticleEmitter")
+teleportParticle.Texture = "rbxassetid://3570430495" -- Replace with your own texture
+teleportParticle.Lifetime = NumberRange.new(0.1)
+teleportParticle.Size = NumberSequence.new(1)
+teleportParticle.Rate = 100
+teleportParticle.Speed = NumberRange.new(50)
+teleportParticle.Parent = humanoidRootPart
+
+-- Sound Effect for the shaking teleportation (optional)
+local teleportSound = Instance.new("Sound")
+teleportSound.SoundId = "rbxassetid://123456789" -- Replace with your own sound asset ID
+teleportSound.Parent = humanoidRootPart
+
+-- Function to perform the shaking teleport
+local function shakeTeleport()
+    -- Disable camera following the player
+    camera.CameraType = Enum.CameraType.Scriptable
+
+    -- Store the current camera position
+    local originalCameraPosition = camera.CFrame
+
+    -- Play sound effect
+    teleportSound:Play()
+
+    -- Emit particles
+    teleportParticle:Emit(50)
+
+    -- Shake back and forth, reducing distance each time
+    local currentShakeDistance = initialShakeDistance
+    for i = 1, shakeTimes do
+        -- Teleport the player to the right
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(currentShakeDistance, 0, 0)
+        wait(shakeSpeed)  -- Wait a short time before moving again
+
+        -- Teleport the player to the left
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(-2 * currentShakeDistance, 0, 0)
+        wait(shakeSpeed)
+
+        -- Move back to the original position (middle)
+        humanoidRootPart.CFrame = humanoidRootPart.CFrame * CFrame.new(currentShakeDistance, 0, 0)
+        wait(shakeSpeed)
+
+        -- Decrease the shake distance for the next cycle
+        currentShakeDistance = currentShakeDistance - distanceDecay
+        if currentShakeDistance <= 0 then
+            currentShakeDistance = 0 -- Prevent negative distance
+        end
+    end
+
+    -- Restore the camera to its original position and resume following the player
+    camera.CFrame = originalCameraPosition
+    camera.CameraType = Enum.CameraType.Custom
+end
+
+-- Call the shake teleport function
+shakeTeleport()
+
+Wait(0.5)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local torso = character:WaitForChild("HumanoidRootPart")
+
+
+local function createRock(size)
+    local rock = Instance.new("Part")
+    rock.Size = size
+    rock.Shape = Enum.PartType.Block
+    rock.Anchored = false
+    rock.CanCollide = true
+    rock.Material = Enum.Material.Slate
+    rock.BrickColor = BrickColor.Gray()
+    rock.Parent = workspace
+
+    local bodyAngularVelocity = Instance.new("BodyAngularVelocity")
+    bodyAngularVelocity.MaxTorque = Vector3.new(4000, 4000, 4000)
+    bodyAngularVelocity.P = 3000
+    bodyAngularVelocity.Parent = rock
+
+    local randomDirection = Vector3.new(
+        math.random() * 10 - 11,
+        math.random() * 23 - 10,
+        math.random() * 19 - 12
+    ).unit
+    local spinSpeed = math.random(50, 150)
+    bodyAngularVelocity.AngularVelocity = randomDirection * spinSpeed
+
+    return rock, bodyAngularVelocity
+end
+
+local function rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
+    local rocks = {}
+    local numberOfRocks = 12
+    local radius = 5
+    local rockHeight = 0,4
+
+    for i = 1, numberOfRocks do
+        local angle = (i / numberOfRocks) * math.pi * 2
+        local size = Vector3.new(0.88, 0.56, 0.79)
+        if i % 2 == 0 then
+            size = Vector3.new(0.70, 0.47, 0.50)
+        end
+        local rock, bodyAngularVelocity = createRock(size)
+        local offsetX = math.cos(angle) * radius
+        local offsetZ = math.sin(angle) * radius
+
+        rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
+        table.insert(rocks, { rock = rock, bodyAngularVelocity = bodyAngularVelocity })
+    end
+
+    local runService = game:GetService("RunService")
+    local startTime = tick()
+    local connection
+    connection = runService.RenderStepped:Connect(function()
+        local elapsed = tick() - startTime
+        local angleStep = (elapsed * rotationSpeed) % (math.pi * 2)
+
+        if elapsed >= 0.6 then
+            rotationSpeed = math.max(rotationSpeed * 0.5, 1)
+        end
+
+        for i, rockData in ipairs(rocks) do
+            local rock = rockData.rock
+            local angle = (i / numberOfRocks) * math.pi * 2 + angleStep
+            local offsetX = math.cos(angle) * radius
+            local offsetZ = math.sin(angle) * radius
+            rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
+        end
+
+        if elapsed >= fallDelay then
+            connection:Disconnect()
+            for _, rockData in ipairs(rocks) do
+                local rock = rockData.rock
+                local bodyAngularVelocity = rockData.bodyAngularVelocity
+                if bodyAngularVelocity then
+                    bodyAngularVelocity:Destroy()
+                end
+
+                local tangentialVelocity = launchSpeed * (1 + math.random(-10, 10) / 100)  
+                local bodyVelocity = Instance.new("BodyVelocity")
+                local outwardDirection = (rock.Position - torso.Position).unit
+                local randomHorizontal = Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)) * 0.3  
+                bodyVelocity.Velocity = (outwardDirection + randomHorizontal).unit * tangentialVelocity + Vector3.new(0, verticalForce, 0)
+                bodyVelocity.P = 1000
+                bodyVelocity.Parent = rock
+
+                local dust = Instance.new("ParticleEmitter")
+                dust.Texture = "rbxassetid://3527866534"  
+                dust.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 0)})
+                dust.Lifetime = NumberRange.new(0.5, 1)
+                dust.Rate = 100
+                dust.Speed = NumberRange.new(5, 10)
+                dust.Parent = rock
+                dust:Emit(0)
+
+                rock.Touched:Connect(function(hit)
+                    if hit:IsA("Terrain") or (hit:IsA("BasePart") and hit.CanCollide) then
+                        bodyVelocity:Destroy()
+
+                        local glideVelocity = outwardDirection * slideSpeed
+                        local glideStartTime = tick()
+
+                        local glideConnection
+                        glideConnection = runService.RenderStepped:Connect(function()
+                            local glideElapsed = tick() - glideStartTime
+                            if glideElapsed >= slideDuration then
+                                glideConnection:Disconnect()
+                                rock.Velocity = Vector3.new(0, 0, 0)
+
+
+                                local shrinkStartTime = tick()
+                                local shrinkConnection
+                                shrinkConnection = runService.RenderStepped:Connect(function()
+                                    local shrinkElapsed = tick() - shrinkStartTime
+                                    local scale = math.max(0, rock.Size.X * (1 - (shrinkElapsed / shrinkDuration)))
+                                    rock.Size = Vector3.new(scale, scale, scale)
+                                    rock.Position = rock.Position - Vector3.new(0, (rock.Size.Y - scale) / 2, 0)
+
+                                    if scale <= 0 then
+                                        shrinkConnection:Disconnect()
+                                        rock:Destroy()
+                                    end
+                                end)
+                            else
+                                rock.Velocity = glideVelocity * (1 - (glideElapsed / slideDuration))
+                            end
+                        end)
+                    end
+                end)
+            end
+        end
+    end)
+end
+
+
+local rotationSpeed = 0
+local fallDelay = 0
+local launchSpeed = 40
+local verticalForce = -50
+local spinSpeed = 100
+local slideSpeed = 30
+local slideDuration = 0.6
+local shrinkDuration = 2.5
+
+rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
+
+
+
+
     end
 
 end
