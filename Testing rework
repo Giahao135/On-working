@@ -35,7 +35,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local head = character:WaitForChild("Head") -- Ensure the "Head" exists
 
 -- Load the sword model
-local swordModel = game:GetObjects("rbxassetid://18671066668")[1]
+local swordModel = game:GetObjects("rbxassetid://18997617061")[1]
 
 -- Ensure the sword model has a handle
 local handle = swordModel:FindFirstChild("Handle") or swordModel:FindFirstChildWhichIsA("BasePart")
@@ -70,7 +70,7 @@ local character = player.Character or player.CharacterAdded:Wait()
 local head = character:WaitForChild("Head") -- Ensure the "Head" exists
 
 -- Load the sword model
-local swordModel = game:GetObjects("rbxassetid://15029874730")[1]
+local swordModel = game:GetObjects("rbxassetid://17662798232")[1]
 
 -- Ensure the sword model has a handle
 local handle = swordModel:FindFirstChild("Handle") or swordModel:FindFirstChildWhichIsA("BasePart")
@@ -87,7 +87,7 @@ weld.Part0 = head
 weld.Part1 = handle
 
 -- Adjust the sword's position and orientation to align properly with the head
-weld.C0 = CFrame.new(0.1, 0.2, 0) * CFrame.Angles(0, math.rad(0), math.rad(0))
+weld.C0 = CFrame.new(0, 0.2, 0) * CFrame.Angles(0, math.rad(180), math.rad(0))
 weld.Parent = head
 
 -- Ensure the sword's orientation matches the intended alignment
@@ -97,6 +97,48 @@ handle.CFrame = head.CFrame * weld.C0
 print("Sword model aligned with the player's head!")
 
 --[[TOJI HAIR]]
+
+--[[TOJI SWORD]]
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rightArm = character:WaitForChild("Right Arm") -- R6 uses "Right Arm"
+
+-- Load the sword model
+local swordModel = game:GetObjects("rbxassetid://73159127288960")[1]
+
+-- Ensure the sword model has a handle
+local handle = swordModel:FindFirstChild("Handle") or swordModel:FindFirstChildWhichIsA("BasePart")
+if not handle then
+    error("The sword model must have a 'Handle' or main part to attach.")
+end
+
+-- Disable collisions on the sword parts
+for _, part in pairs(swordModel:GetDescendants()) do
+    if part:IsA("BasePart") then
+        part.CanCollide = false
+    end
+end
+
+-- Set the sword's parent to the character
+swordModel.Parent = character
+
+-- Weld the sword to the right arm
+local weld = Instance.new("Weld")
+weld.Part0 = rightArm
+weld.Part1 = handle
+
+-- Adjust the sword's position and orientation to align properly with the hand
+weld.C0 = CFrame.new(-0.1, -1, -2.2) * CFrame.Angles(0, math.rad(90), math.rad(270))
+weld.Parent = rightArm
+
+-- Ensure the sword's orientation matches the hand grip
+handle.CFrame = rightArm.CFrame * weld.C0
+
+-- Confirm execution
+print("Sword model aligned with the player's right hand, blade pointing forward, and noclip enabled!")
+
+--[[END TOJI SWORD]]
 
 --[[TOJI SWORD]]
 
@@ -669,76 +711,51 @@ game.Players.LocalPlayer.PlayerGui.ScreenGui.MagicHealth.Health.Bar.Bar.ImageCol
 
 --Move & Ultimate Names
 
+local MovesetName1 = "Domain Break"
+local MovesetName2 = "Three Fold Cut"
+local MovesetName3 = "Rush"
+local MovesetName4 = "The Shadow Walk"
+
+-- don't change anything
 local player = game.Players.LocalPlayer
-
 local playerGui = player.PlayerGui
-
 local hotbar = playerGui:FindFirstChild("Hotbar")
-
 local backpack = hotbar:FindFirstChild("Backpack")
-
 local hotbarFrame = backpack:FindFirstChild("Hotbar")
-
 local baseButton = hotbarFrame:FindFirstChild("1").Base
-
 local ToolName = baseButton.ToolName
 
-
-ToolName.Text = "One Second Slashes"
-
+ToolName.Text = MovesetName1
 
 local player = game.Players.LocalPlayer
-
 local playerGui = player.PlayerGui
-
 local hotbar = playerGui:FindFirstChild("Hotbar")
-
 local backpack = hotbar:FindFirstChild("Backpack")
-
 local hotbarFrame = backpack:FindFirstChild("Hotbar")
-
 local baseButton = hotbarFrame:FindFirstChild("2").Base
-
 local ToolName = baseButton.ToolName
 
-
-ToolName.Text = "Phantom Cut"
-
+ToolName.Text = MovesetName2
 
 local player = game.Players.LocalPlayer
-
 local playerGui = player.PlayerGui
-
 local hotbar = playerGui:FindFirstChild("Hotbar")
-
 local backpack = hotbar:FindFirstChild("Backpack")
-
 local hotbarFrame = backpack:FindFirstChild("Hotbar")
-
 local baseButton = hotbarFrame:FindFirstChild("3").Base
-
 local ToolName = baseButton.ToolName
 
-
-ToolName.Text = "Rush"
-
+ToolName.Text = MovesetName3
 
 local player = game.Players.LocalPlayer
-
 local playerGui = player.PlayerGui
-
 local hotbar = playerGui:FindFirstChild("Hotbar")
-
 local backpack = hotbar:FindFirstChild("Backpack")
-
 local hotbarFrame = backpack:FindFirstChild("Hotbar")
-
 local baseButton = hotbarFrame:FindFirstChild("4").Base
-
 local ToolName = baseButton.ToolName
 
-
-ToolName.Text = "Two Step"
+ToolName.Text = MovesetName4
 
 
 local Players = game:GetService("Players")
@@ -993,7 +1010,6 @@ end
 
 --[[Move 2]]
 
-
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
 
@@ -1042,9 +1058,40 @@ Anim.TimePosition = startTime
 
 Anim:AdjustSpeed(0.8)
 
-delay(1.8, function()
+delay(1.7, function()
 
     Anim:Stop()
+
+Wait(0)
+
+local Test = game:GetService("ReplicatedStorage").Resources.VanishingKick.Stomp.Part.Attachment
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(225,225,225))
+        child:Emit(10)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(0.3, destroyTest) -- Adjust the delay as needed
 
 task.wait(0)
 
@@ -1070,16 +1117,16 @@ Anim2:AdjustSpeed(1.2)
 
 end)
 
-Wait(0.3)
+Wait(0.5)
 
---Variables
+-- Variables
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 local camera = game.Workspace.CurrentCamera
 local initialShakeDistance = 30 -- Starting distance for the shake (in studs)
-local shakeSpeed = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005 -- Time between each shake (in seconds)
-local shakeTimes = 15 -- Number of shakes
+local shakeSpeed = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005 -- Time between each shake (in seconds) (reduced for more visible effect)
+local shakeTimes = 10 -- Number of shakes
 local distanceDecay = initialShakeDistance / shakeTimes -- How much the shake distance decreases each time
 
 -- ParticleEmitter for the shaking teleport effect (optional)
@@ -1096,6 +1143,10 @@ local teleportSound = Instance.new("Sound")
 teleportSound.SoundId = "rbxassetid://123456789" -- Replace with your own sound asset ID
 teleportSound.Parent = humanoidRootPart
 
+-- VFX for additional particle effects
+local Test = game:GetService("ReplicatedStorage").Resources.NinjaUlt.Start_Effects.Particles.Low
+local test = Test:Clone()
+
 -- Function to perform the shaking teleport
 local function shakeTeleport()
     -- Disable camera following the player
@@ -1107,7 +1158,16 @@ local function shakeTeleport()
     -- Play sound effect
     teleportSound:Play()
 
-    -- Emit particles
+    -- Emit the custom particles (VFX)
+    test.Parent = humanoidRootPart -- Attach the effect to the humanoidRootPart
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child:Emit(10)
+            child.Enabled = true
+        end
+    end
+
+    -- Emit particles for the teleport effect
     teleportParticle:Emit(50)
 
     -- Shake back and forth, reducing distance each time
@@ -1132,6 +1192,9 @@ local function shakeTeleport()
         end
     end
 
+    -- Destroy the particle effect after shaking is done
+    test:Destroy()
+
     -- Restore the camera to its original position and resume following the player
     camera.CFrame = originalCameraPosition
     camera.CameraType = Enum.CameraType.Custom
@@ -1140,154 +1203,65 @@ end
 -- Call the shake teleport function
 shakeTeleport()
 
-Wait(0.5)
+Wait(0.8)
 
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local torso = character:WaitForChild("HumanoidRootPart")
+local Test = game:GetService("ReplicatedStorage").Resources.Dragon.Roar.Roar.Floor
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
 
 
-local function createRock(size)
-    local rock = Instance.new("Part")
-    rock.Size = size
-    rock.Shape = Enum.PartType.Block
-    rock.Anchored = false
-    rock.CanCollide = true
-    rock.Material = Enum.Material.Slate
-    rock.BrickColor = BrickColor.Gray()
-    rock.Parent = workspace
-
-    local bodyAngularVelocity = Instance.new("BodyAngularVelocity")
-    bodyAngularVelocity.MaxTorque = Vector3.new(4000, 4000, 4000)
-    bodyAngularVelocity.P = 3000
-    bodyAngularVelocity.Parent = rock
-
-    local randomDirection = Vector3.new(
-        math.random() * 10 - 11,
-        math.random() * 23 - 10,
-        math.random() * 19 - 12
-    ).unit
-    local spinSpeed = math.random(50, 150)
-    bodyAngularVelocity.AngularVelocity = randomDirection * spinSpeed
-
-    return rock, bodyAngularVelocity
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(255,255,255))
+        child:Emit(2)
+        child.Enabled = true
+    end
 end
 
-local function rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
-    local rocks = {}
-    local numberOfRocks = 12
-    local radius = 5
-    local rockHeight = 0,4
-
-    for i = 1, numberOfRocks do
-        local angle = (i / numberOfRocks) * math.pi * 2
-        local size = Vector3.new(0.88, 0.56, 0.79)
-        if i % 2 == 0 then
-            size = Vector3.new(0.70, 0.47, 0.50)
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
         end
-        local rock, bodyAngularVelocity = createRock(size)
-        local offsetX = math.cos(angle) * radius
-        local offsetZ = math.sin(angle) * radius
-
-        rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
-        table.insert(rocks, { rock = rock, bodyAngularVelocity = bodyAngularVelocity })
     end
 
-    local runService = game:GetService("RunService")
-    local startTime = tick()
-    local connection
-    connection = runService.RenderStepped:Connect(function()
-        local elapsed = tick() - startTime
-        local angleStep = (elapsed * rotationSpeed) % (math.pi * 2)
-
-        if elapsed >= 0.6 then
-            rotationSpeed = math.max(rotationSpeed * 0.5, 1)
-        end
-
-        for i, rockData in ipairs(rocks) do
-            local rock = rockData.rock
-            local angle = (i / numberOfRocks) * math.pi * 2 + angleStep
-            local offsetX = math.cos(angle) * radius
-            local offsetZ = math.sin(angle) * radius
-            rock.Position = torso.Position + Vector3.new(offsetX, rockHeight, offsetZ)
-        end
-
-        if elapsed >= fallDelay then
-            connection:Disconnect()
-            for _, rockData in ipairs(rocks) do
-                local rock = rockData.rock
-                local bodyAngularVelocity = rockData.bodyAngularVelocity
-                if bodyAngularVelocity then
-                    bodyAngularVelocity:Destroy()
-                end
-
-                local tangentialVelocity = launchSpeed * (1 + math.random(-10, 10) / 100)  
-                local bodyVelocity = Instance.new("BodyVelocity")
-                local outwardDirection = (rock.Position - torso.Position).unit
-                local randomHorizontal = Vector3.new(math.random(-1, 1), 0, math.random(-1, 1)) * 0.3  
-                bodyVelocity.Velocity = (outwardDirection + randomHorizontal).unit * tangentialVelocity + Vector3.new(0, verticalForce, 0)
-                bodyVelocity.P = 1000
-                bodyVelocity.Parent = rock
-
-                local dust = Instance.new("ParticleEmitter")
-                dust.Texture = "rbxassetid://3527866534"  
-                dust.Size = NumberSequence.new({NumberSequenceKeypoint.new(0, 2), NumberSequenceKeypoint.new(1, 0)})
-                dust.Lifetime = NumberRange.new(0.5, 1)
-                dust.Rate = 100
-                dust.Speed = NumberRange.new(5, 10)
-                dust.Parent = rock
-                dust:Emit(0)
-
-                rock.Touched:Connect(function(hit)
-                    if hit:IsA("Terrain") or (hit:IsA("BasePart") and hit.CanCollide) then
-                        bodyVelocity:Destroy()
-
-                        local glideVelocity = outwardDirection * slideSpeed
-                        local glideStartTime = tick()
-
-                        local glideConnection
-                        glideConnection = runService.RenderStepped:Connect(function()
-                            local glideElapsed = tick() - glideStartTime
-                            if glideElapsed >= slideDuration then
-                                glideConnection:Disconnect()
-                                rock.Velocity = Vector3.new(0, 0, 0)
-
-
-                                local shrinkStartTime = tick()
-                                local shrinkConnection
-                                shrinkConnection = runService.RenderStepped:Connect(function()
-                                    local shrinkElapsed = tick() - shrinkStartTime
-                                    local scale = math.max(0, rock.Size.X * (1 - (shrinkElapsed / shrinkDuration)))
-                                    rock.Size = Vector3.new(scale, scale, scale)
-                                    rock.Position = rock.Position - Vector3.new(0, (rock.Size.Y - scale) / 2, 0)
-
-                                    if scale <= 0 then
-                                        shrinkConnection:Disconnect()
-                                        rock:Destroy()
-                                    end
-                                end)
-                            else
-                                rock.Velocity = glideVelocity * (1 - (glideElapsed / slideDuration))
-                            end
-                        end)
-                    end
-                end)
-            end
-        end
-    end)
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
 end
 
+-- Call the destroy function after a delay
+task.delay(0.2, destroyTest) -- Adjust the delay as needed
 
-local rotationSpeed = 0
-local fallDelay = 0
-local launchSpeed = 40
-local verticalForce = -50
-local spinSpeed = 100
-local slideSpeed = 30
-local slideDuration = 0.6
-local shrinkDuration = 2.5
+local Test = game:GetService("ReplicatedStorage").Resources.Dragon.Roar.Roar.Attachment
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
 
-rotateRocks(rotationSpeed, fallDelay, launchSpeed, verticalForce, spinSpeed, slideSpeed, slideDuration, shrinkDuration)
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(255,255,255))
+        child:Emit(3)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(0.2, destroyTest) -- Adjust the delay as needed
 
 
 
@@ -1642,7 +1616,6 @@ end
 
 --[[Move 4 COUNTER]]
 
-
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
 
@@ -1834,9 +1807,39 @@ Anim2:AdjustSpeed(0)
 
 Anim2.TimePosition = startTime
 
-Anim2:AdjustSpeed(1)
+Anim2:AdjustSpeed(1.2)
 
 end)
+
+Wait(0.7)
+
+local Test = game:GetService("ReplicatedStorage").Resources.BloodSplatter.Attachment
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["Right Arm"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(10)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(0.3, destroyTest) -- Adjust the delay as needed
 
 
     end
@@ -1850,7 +1853,7 @@ end
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
 
-local animationId = 12447707844
+local animationId = 15391323441
 
 
 local player = game.Players.LocalPlayer
@@ -1878,7 +1881,7 @@ end
 
 local AnimAnim = Instance.new("Animation")
 
-AnimAnim.AnimationId = "rbxassetid://17106858586 "
+AnimAnim.AnimationId = "rbxassetid://13643152947 "
 
 local Anim = Humanoid:LoadAnimation(AnimAnim)
 
@@ -1892,7 +1895,155 @@ Anim:AdjustSpeed(0)
 
 Anim.TimePosition = startTime
 
-Anim:AdjustSpeed(1)
+Anim:AdjustSpeed(0.8)
+
+
+delay(4.4, function()
+
+    Anim:Stop()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://14719290328"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 2
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(1)
+
+end)
+
+Wait(0.3)
+
+local Test = game:GetService("ReplicatedStorage").Resources.Fang.OneInch2.dash3.VFX
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(0,0,0))
+        child:Emit(5)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(4.6, destroyTest) -- Adjust the delay as needed
+
+local Test = game:GetService("ReplicatedStorage").Resources.Fang.OneInch.dash3.VFX
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(225,225,225))
+        child:Emit(5)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(4.6, destroyTest) -- Adjust the delay as needed
+
+Wait(0)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = workspace.CurrentCamera  -- Reference to the camera
+
+-- Variables for the dash (or forward movement)
+local dashSpeed = 200 -- Change to how fast you want the dash
+local dashDuration = 4.8 -- Duration of the dash in seconds
+local isDashing = false
+
+-- Animation Setup
+local dashAnim = Instance.new("Animation")
+dashAnim.AnimationId = "rbxassetid://0"  -- Replace with your animation ID
+local animTrack = humanoid:LoadAnimation(dashAnim)
+
+-- Function to make the player move forward
+local function moveForward()
+    if isDashing then return end
+    isDashing = true
+
+    -- Play the dash animation immediately
+    animTrack:Play()
+
+    wait(0.1)
+
+    -- Create a BodyVelocity to move the player forward
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)  -- Max force to apply the movement
+    bodyVelocity.Parent = humanoidRootPart
+
+    local dashEndTime = tick() + dashDuration  -- Time when dash should end
+
+    -- Continuously update the direction the player is moving based on camera orientation
+    while tick() < dashEndTime do
+        -- Update direction: we use the camera's current direction
+        local cameraDirection = camera.CFrame.LookVector
+        local dashDirection = Vector3.new(cameraDirection.X, 0, cameraDirection.Z).unit
+
+        -- Apply the new velocity for the dash direction
+        bodyVelocity.Velocity = dashDirection * dashSpeed
+
+        wait(0.05)  -- Small delay to avoid overloading the server
+    end
+
+    -- Stop the dash animation
+    animTrack:Stop()
+
+    -- Remove the BodyVelocity after the dash is complete
+    bodyVelocity:Destroy()
+    isDashing = false
+end
+
+-- The `moveForward` function can now be called manually from elsewhere in the script.
+
+moveForward()  -- Call this function when you want the dash to occur.
 
 
     end
@@ -2144,7 +2295,330 @@ task.delay(0.2, destroyTest) -- Adjust the delay as needed
 
 end
 
---[[END OF DASH left ANIM]]
+--[[END OF DASH LEFT ANIM]]
+
+--[[ULT MOVE 1]]
+
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 15520132233
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://14701242661"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 1
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1)
+
+
+delay(3.6, function()
+
+    Anim:Stop()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://14701242661"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 7.6
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(0.8)
+
+end)
+
+wait(1.1)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = workspace.CurrentCamera  -- Reference to the camera
+
+-- Variables for the dash (or forward movement)
+local dashSpeed = 200 -- Change to how fast you want the dash
+local dashDuration = 0.1 -- Duration of the dash in seconds
+local isDashing = false
+
+-- Animation Setup
+local dashAnim = Instance.new("Animation")
+dashAnim.AnimationId = "rbxassetid://0"  -- Replace with your animation ID
+local animTrack = humanoid:LoadAnimation(dashAnim)
+
+-- Function to make the player move forward
+local function moveForward()
+    if isDashing then return end
+    isDashing = true
+
+    -- Play the dash animation immediately
+    animTrack:Play()
+
+    wait(0)
+
+    -- Create a BodyVelocity to move the player forward
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)  -- Max force to apply the movement
+    bodyVelocity.Parent = humanoidRootPart
+
+    local dashEndTime = tick() + dashDuration  -- Time when dash should end
+
+    -- Continuously update the direction the player is moving based on camera orientation
+    while tick() < dashEndTime do
+        -- Update direction: we use the camera's current direction
+        local cameraDirection = camera.CFrame.LookVector
+        local dashDirection = Vector3.new(cameraDirection.X, 0, cameraDirection.Z).unit
+
+        -- Apply the new velocity for the dash direction
+        bodyVelocity.Velocity = dashDirection * dashSpeed
+
+        wait(0.05)  -- Small delay to avoid overloading the server
+    end
+
+    -- Stop the dash animation
+    animTrack:Stop()
+
+    -- Remove the BodyVelocity after the dash is complete
+    bodyVelocity:Destroy()
+    isDashing = false
+end
+
+-- The `moveForward` function can now be called manually from elsewhere in the script.
+
+moveForward()  -- Call this function when you want the dash to occur.
+
+wait(0.3)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = workspace.CurrentCamera  -- Reference to the camera
+
+-- Variables for the dash (or forward movement)
+local dashSpeed = 200 -- Change to how fast you want the dash
+local dashDuration = 0.1 -- Duration of the dash in seconds
+local isDashing = false
+
+-- Animation Setup
+local dashAnim = Instance.new("Animation")
+dashAnim.AnimationId = "rbxassetid://0"  -- Replace with your animation ID
+local animTrack = humanoid:LoadAnimation(dashAnim)
+
+-- Function to make the player move forward
+local function moveForward()
+    if isDashing then return end
+    isDashing = true
+
+    -- Play the dash animation immediately
+    animTrack:Play()
+
+    wait(0)
+
+    -- Create a BodyVelocity to move the player forward
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)  -- Max force to apply the movement
+    bodyVelocity.Parent = humanoidRootPart
+
+    local dashEndTime = tick() + dashDuration  -- Time when dash should end
+
+    -- Continuously update the direction the player is moving based on camera orientation
+    while tick() < dashEndTime do
+        -- Update direction: we use the camera's current direction
+        local cameraDirection = camera.CFrame.LookVector
+        local dashDirection = Vector3.new(cameraDirection.X, 0, cameraDirection.Z).unit
+
+        -- Apply the new velocity for the dash direction
+        bodyVelocity.Velocity = dashDirection * dashSpeed
+
+        wait(0.05)  -- Small delay to avoid overloading the server
+    end
+
+    -- Stop the dash animation
+    animTrack:Stop()
+
+    -- Remove the BodyVelocity after the dash is complete
+    bodyVelocity:Destroy()
+    isDashing = false
+end
+
+-- The `moveForward` function can now be called manually from elsewhere in the script.
+
+moveForward()  -- Call this function when you want the dash to occur.
+
+wait(0.4)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = workspace.CurrentCamera  -- Reference to the camera
+
+-- Variables for the dash (or forward movement)
+local dashSpeed = 200 -- Change to how fast you want the dash
+local dashDuration = 0.1 -- Duration of the dash in seconds
+local isDashing = false
+
+-- Animation Setup
+local dashAnim = Instance.new("Animation")
+dashAnim.AnimationId = "rbxassetid://0"  -- Replace with your animation ID
+local animTrack = humanoid:LoadAnimation(dashAnim)
+
+-- Function to make the player move forward
+local function moveForward()
+    if isDashing then return end
+    isDashing = true
+
+    -- Play the dash animation immediately
+    animTrack:Play()
+
+    wait(0)
+
+    -- Create a BodyVelocity to move the player forward
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)  -- Max force to apply the movement
+    bodyVelocity.Parent = humanoidRootPart
+
+    local dashEndTime = tick() + dashDuration  -- Time when dash should end
+
+    -- Continuously update the direction the player is moving based on camera orientation
+    while tick() < dashEndTime do
+        -- Update direction: we use the camera's current direction
+        local cameraDirection = camera.CFrame.LookVector
+        local dashDirection = Vector3.new(cameraDirection.X, 0, cameraDirection.Z).unit
+
+        -- Apply the new velocity for the dash direction
+        bodyVelocity.Velocity = dashDirection * dashSpeed
+
+        wait(0.05)  -- Small delay to avoid overloading the server
+    end
+
+    -- Stop the dash animation
+    animTrack:Stop()
+
+    -- Remove the BodyVelocity after the dash is complete
+    bodyVelocity:Destroy()
+    isDashing = false
+end
+
+-- The `moveForward` function can now be called manually from elsewhere in the script.
+
+moveForward()  -- Call this function when you want the dash to occur.
+
+wait(0.2)
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local camera = workspace.CurrentCamera  -- Reference to the camera
+
+-- Variables for the dash (or forward movement)
+local dashSpeed = 200 -- Change to how fast you want the dash
+local dashDuration = 0.1 -- Duration of the dash in seconds
+local isDashing = false
+
+-- Animation Setup
+local dashAnim = Instance.new("Animation")
+dashAnim.AnimationId = "rbxassetid://0"  -- Replace with your animation ID
+local animTrack = humanoid:LoadAnimation(dashAnim)
+
+-- Function to make the player move forward
+local function moveForward()
+    if isDashing then return end
+    isDashing = true
+
+    -- Play the dash animation immediately
+    animTrack:Play()
+
+    wait(0)
+
+    -- Create a BodyVelocity to move the player forward
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(100000, 100000, 100000)  -- Max force to apply the movement
+    bodyVelocity.Parent = humanoidRootPart
+
+    local dashEndTime = tick() + dashDuration  -- Time when dash should end
+
+    -- Continuously update the direction the player is moving based on camera orientation
+    while tick() < dashEndTime do
+        -- Update direction: we use the camera's current direction
+        local cameraDirection = camera.CFrame.LookVector
+        local dashDirection = Vector3.new(cameraDirection.X, 0, cameraDirection.Z).unit
+
+        -- Apply the new velocity for the dash direction
+        bodyVelocity.Velocity = dashDirection * dashSpeed
+
+        wait(0.05)  -- Small delay to avoid overloading the server
+    end
+
+    -- Stop the dash animation
+    animTrack:Stop()
+
+    -- Remove the BodyVelocity after the dash is complete
+    bodyVelocity:Destroy()
+    isDashing = false
+end
+
+-- The `moveForward` function can now be called manually from elsewhere in the script.
+
+moveForward()  -- Call this function when you want the dash to occur.
+
+
+    end
+
+end
+
+--[[END OF ULT MOVE 1]]
 
 --[[Uppercut]]
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
