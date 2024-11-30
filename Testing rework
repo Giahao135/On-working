@@ -140,48 +140,6 @@ print("Sword model aligned with the player's right hand, blade pointing forward,
 
 --[[END TOJI SWORD]]
 
---[[TOJI SWORD]]
-
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local rightArm = character:WaitForChild("Right Arm") -- R6 uses "Right Arm"
-
--- Load the sword model
-local swordModel = game:GetObjects("rbxassetid://73159127288960")[1]
-
--- Ensure the sword model has a handle
-local handle = swordModel:FindFirstChild("Handle") or swordModel:FindFirstChildWhichIsA("BasePart")
-if not handle then
-    error("The sword model must have a 'Handle' or main part to attach.")
-end
-
--- Disable collisions on the sword parts
-for _, part in pairs(swordModel:GetDescendants()) do
-    if part:IsA("BasePart") then
-        part.CanCollide = false
-    end
-end
-
--- Set the sword's parent to the character
-swordModel.Parent = character
-
--- Weld the sword to the right arm
-local weld = Instance.new("Weld")
-weld.Part0 = rightArm
-weld.Part1 = handle
-
--- Adjust the sword's position and orientation to align properly with the hand
-weld.C0 = CFrame.new(-0.1, -1, -2.2) * CFrame.Angles(0, math.rad(90), math.rad(270))
-weld.Parent = rightArm
-
--- Ensure the sword's orientation matches the hand grip
-handle.CFrame = rightArm.CFrame * weld.C0
-
--- Confirm execution
-print("Sword model aligned with the player's right hand, blade pointing forward, and noclip enabled!")
-
---[[END TOJI SWORD]]
-
 --[[WORM MODEL]]
 
 local player = game.Players.LocalPlayer
@@ -564,6 +522,8 @@ t.Activated:Connect(function() -- instead of Activated you can do Equipped or Un
         fg = false
     end
 end)
+
+
 
 coroutine.wrap(function()
     -- Ensure the necessary services are available
@@ -1010,6 +970,7 @@ end
 
 --[[Move 2]]
 
+
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
 
@@ -1329,7 +1290,7 @@ delay(20, function()
 
 end)
 
-wait(2.3)
+wait(2.2)
 local boom1 = game.ReplicatedStorage.Resources.KJEffects["spinnerthing"].spinningpartysmoke:Clone()
 boom1.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
     for _, child in ipairs(boom1:GetChildren()) do
@@ -1338,12 +1299,41 @@ boom1.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
         end
     end
 
+local Test = game:GetService("ReplicatedStorage").Resources.Fang.RockExplode.GoodSmoke3.emit
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child.Color = ColorSequence.new(Color3.new(255,255,255))
+        child:Emit(5)
+        child.Enabled = true
+    end
+end
+
+--Destroy function
+local function destroyTest()
+    for _, child in ipairs(test:GetChildren()) do
+        if child:IsA("ParticleEmitter") then
+            child.Enabled = false -- Disable the particle emitter
+        end
+    end
+
+    task.wait(2) -- Wait a couple of seconds for particles to finish
+    test:Destroy() -- Destroy the cloned object
+end
+
+-- Call the destroy function after a delay
+task.delay(1, destroyTest) -- Adjust the delay as needed
+
 
     end
 
 end
 
---[[END OF MOVE 2 ANIM]]
+--[[END OF MOVE 2 FINISHER ANIM]]
 
 --[[Move 3 GROUND VARIANT]]
 
@@ -1615,6 +1605,7 @@ end
 --[[END OF MOVE 3 ANIM FINISHER]]
 
 --[[Move 4 COUNTER]]
+
 
 humanoid.AnimationPlayed:Connect(onAnimationPlayed)
 
@@ -2295,7 +2286,7 @@ task.delay(0.2, destroyTest) -- Adjust the delay as needed
 
 end
 
---[[END OF DASH LEFT ANIM]]
+--[[END OF DASH left ANIM]]
 
 --[[ULT MOVE 1]]
 
