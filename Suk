@@ -1,0 +1,2024 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local playerGui = player:WaitForChild("PlayerGui")
+local deathPosition = nil
+local respawnAnimation = "rbxassetid://1"
+
+--Notify if character is wrong
+Hero = game.Players.LocalPlayer.Character:GetAttribute("Character")
+if Hero ~= "Bald" then
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "For Dumb People(fr)";
+        Text = "Why dont u just use saitama buddy😭";
+        Duration = 5;
+    })
+    return
+end
+
+--[[BLOCKED SOUND]]
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+local soundsToBlock = {
+    ["rbxassetid://9117969687"] = true,
+    ["rbxassetid://9117969584"] = true,
+    ["rbxassetid://9117970193"] = true,
+    ["rbxassetid://9117969892"] = true,
+    ["rbxassetid://10771199494"] = true,
+    ["rbxassetid://3755636438"] = true,
+    ["rbxassetid://3755636825"] = true,
+    ["rbxassetid://10472822874"] = true,
+    ["rbxassetid://14762034452"] = true,
+    ["rbxassetid://10760305528"] = true,
+    ["rbxassetid://10771102181"] = true,
+    ["rbxassetid://3183222154"] = true,
+    ["rbxassetid://7556019578"] = true,
+}
+
+-- don't change here
+local function onSoundPlayed(sound)
+    if soundsToBlock[sound.SoundId] then
+        sound.Volume = 0
+    end
+end
+local function blockSounds()
+    workspace.DescendantAdded:Connect(function(descendant)
+        if descendant:IsA("Sound") then
+            descendant.Played:Connect(function() onSoundPlayed(descendant) end)
+        end
+    end)
+    for _, sound in ipairs(workspace:GetDescendants()) do
+        if sound:IsA("Sound") then
+            sound.Played:Connect(function() onSoundPlayed(sound) end)
+        end
+    end
+end
+blockSounds()
+humanoid.Died:Connect(function()
+    for _, sound in ipairs(workspace:GetDescendants()) do
+        if sound:IsA("Sound") and soundsToBlock[sound.SoundId] then
+            sound.Volume = 1
+        end
+    end
+end)
+
+--[[END BLOCKED SOUND]]
+
+--Move & Ultimate Names
+
+local LocalPlayer = game.Players.LocalPlayer
+
+local LocalPlayer = game.Players.LocalPlayer
+
+LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar:WaitForChild("5").Base.Reuse.Visible = true
+
+LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar:WaitForChild("5").Base.Reuse.Text = "3+1 VARIANT"
+
+LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar:WaitForChild("5").Base.Reuse.Reuse.Text = "3+1 VARIANT"
+
+local function typewriterEffect(label, text, delayTime)
+    label.Text = ""
+    for i = 1, #text do
+        label.Text = label.Text .. text:sub(i, i)
+        wait(delayTime)
+    end
+end
+
+local function resetHotbarText()
+    coroutine.wrap(function()
+        local magicHealth = LocalPlayer.PlayerGui.ScreenGui:WaitForChild("MagicHealth")
+        local healthBar = magicHealth:WaitForChild("Health"):WaitForChild("Bar"):WaitForChild("Bar")
+        local healthGlow = magicHealth.Health.Glow
+        local hotbar = LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar
+
+        -- Image for the ult Bar
+        healthBar.Image = "rbxassetid://15248647876"
+        healthGlow.Image = "rbxassetid://15248647876"
+
+        healthBar.ImageColor3 = Color3.fromRGB(255, 0, 0)
+        game:GetService("TweenService"):Create(healthBar, TweenInfo.new(1.5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, true), {ImageColor3 = Color3.fromRGB(139,0,0)}):Play()
+
+        magicHealth.TextLabel.Text = "Fuck you"
+
+        typewriterEffect(hotbar["1"].Base.ToolName, "Black Flash", 0.03)
+        typewriterEffect(hotbar["2"].Base.ToolName, "Dismantle", 0.03)
+        typewriterEffect(hotbar["3"].Base.ToolName, "Cursed Fist", 0.03)
+        typewriterEffect(hotbar["4"].Base.ToolName, "Rising Kick", 0.03)
+
+        -- Set font for tool names
+        for i = 1, 5 do
+            local toolNameLabel = hotbar[tostring(i)].Base.ToolName
+            toolNameLabel.Font = Enum.Font.SourceSans -- Set your desired font here
+        end
+
+        typewriterEffect(magicHealth.TextLabel, "?", 0.05)
+    end)()
+end
+
+resetHotbarText()
+
+--[[Animations]]
+
+--[[Move 1]]
+
+local animationId = 10468665991
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://136363608783208"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 1.5
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0.1)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1)
+
+task.spawn(function()
+
+local function GetGitSound(GithubSnd,SoundName)
+                local url=GithubSnd
+                if not isfile(SoundName..".mp3") then
+                    writefile(SoundName..".mp3", game:HttpGet(url))
+                end
+                local sound=Instance.new("Sound")
+                sound.SoundId=(getcustomasset or geltsynasset)(SoundName..".mp3")
+                return sound
+            end
+   local Clock = GetGitSound("https://github.com/Giahao135/Audio/blob/main/REMEMBERJJK%20STARTUP.mp3?raw=true","Startup")
+
+                Clock.Parent = Workspace
+
+                Clock.Volume = 4
+                Clock.TimePosition = 1.5
+
+                Clock:Play()
+end)
+
+local Sound = 97960256382964
+local Volume = 3
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+Wait(0.68)
+
+local Sound = 17873732848
+local Volume = 3
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+local BlackFlashHit = Instance.new("Part")
+				game.Debris:AddItem(BlackFlashHit, 5)
+				BlackFlashHit.CFrame = game.Players.LocalPlayer.Character["Right Arm"].CFrame
+				local Sparks2 = Instance.new("ParticleEmitter")
+				local Blast = Instance.new("ParticleEmitter")
+				local Lightning = Instance.new("ParticleEmitter")
+				local Wind2 = Instance.new("ParticleEmitter")
+				local Sparks = Instance.new("ParticleEmitter")
+				-- Properties --
+
+				BlackFlashHit.Anchored = true
+				BlackFlashHit.BottomSurface = Enum.SurfaceType.Smooth
+				BlackFlashHit.CanCollide = false
+				BlackFlashHit.EnableFluidForces = false
+				BlackFlashHit.Size = Vector3.new(1, 1, 1)
+				BlackFlashHit.TopSurface = Enum.SurfaceType.Smooth
+				BlackFlashHit.Transparency = 1
+				BlackFlashHit.Name = [[BlackFlashHit]]
+				BlackFlashHit.Parent = workspace
+
+				Sparks2.Acceleration = Vector3.new(0, 5, 0)
+				Sparks2.Brightness = 15
+				Sparks2.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,0,0),0),ColorSequenceKeypoint.new(1,Color3.new(1,0,0),0)})
+				Sparks2.Drag = 7
+				Sparks2.EmissionDirection = Enum.NormalId.Front
+				Sparks2.Enabled = false
+				Sparks2.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+				Sparks2.Lifetime = NumberRange.new(1,2)
+				Sparks2.Orientation = Enum.ParticleOrientation.VelocityParallel
+				Sparks2.Rate = 400
+				Sparks2:Emit(20)
+				Sparks2.RotSpeed = NumberRange.new(-300,300)
+				Sparks2.Rotation = NumberRange.new(0,360)
+				Sparks2.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,4,2),NumberSequenceKeypoint.new(1,0,0)})
+				Sparks2.Speed = NumberRange.new(20,150)
+				Sparks2.SpreadAngle = Vector2.new(360, 360)
+				Sparks2.Texture = [[rbxassetid://17547405831]]
+				Sparks2.Name = [[Sparks2]]
+				Sparks2.Parent = BlackFlashHit
+
+				Blast.Brightness = 10
+				Blast.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,0,0),0),ColorSequenceKeypoint.new(1,Color3.new(1,0,0),0)})
+				Blast.EmissionDirection = Enum.NormalId.Front
+				Blast.Enabled = false
+				Blast.Lifetime = NumberRange.new(0.05,0.05)
+				Blast.Orientation = Enum.ParticleOrientation.VelocityParallel
+				Blast.Rate = 200
+				Blast:Emit(20)
+				Blast.Rotation = NumberRange.new(-360,360)
+				Blast.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,10,0),NumberSequenceKeypoint.new(1,62.2016,0)})
+				Blast.Speed = NumberRange.new(0.1,0.1)
+				Blast.SpreadAngle = Vector2.new(360, 360)
+				Blast.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0,-3,0),NumberSequenceKeypoint.new(1,2.5125,0)})
+				Blast.Texture = [[rbxassetid://7994629137]]
+				Blast.Name = [[Blast]]
+				Blast.Parent = BlackFlashHit
+
+				Lightning.Brightness = 5
+				Lightning.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,0,0),0),ColorSequenceKeypoint.new(1,Color3.new(1,0,0),0)})
+				Lightning.Drag = 3
+				Lightning.Enabled = false
+				Lightning.FlipbookFramerate = NumberRange.new(20,40)
+				Lightning.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+				Lightning.FlipbookStartRandom = true
+				Lightning.Lifetime = NumberRange.new(0.2,1.3)
+				Lightning.LockedToPart = true
+				Lightning.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+				Lightning.Rate = 100
+				Lightning:Emit(20)
+				Lightning.Rotation = NumberRange.new(0,360)
+				Lightning.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.033642,12.5435,11.3034),NumberSequenceKeypoint.new(0.075642,16.0988,11.5298),NumberSequenceKeypoint.new(0.109642,9.43785,12.5917),NumberSequenceKeypoint.new(0.177642,14.175,13.7364),NumberSequenceKeypoint.new(1,13.9192,13.4744)})
+				Lightning.Speed = NumberRange.new(0.001,10)
+				Lightning.SpreadAngle = Vector2.new(360, 360)
+				Lightning.Texture = [[rbxassetid://14255829980]]
+				Lightning.ZOffset = 2
+				Lightning.Name = [[Lightning]]
+				Lightning.Parent = BlackFlashHit
+
+				Wind2.Brightness = 3
+				Wind2.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,0,0),0),ColorSequenceKeypoint.new(1,Color3.new(1,0,0),0)})
+				Wind2.Enabled = false
+				Wind2.Lifetime = NumberRange.new(0.1,0.1)
+				Wind2.LightEmission = 1
+				Wind2.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+				Wind2.Rate = 100
+				Wind2:Emit(20)
+				Wind2.Rotation = NumberRange.new(-360,360)
+				Wind2.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,80,0),NumberSequenceKeypoint.new(1,80,0)})
+				Wind2.Speed = NumberRange.new(0.01,0.01)
+				Wind2.SpreadAngle = Vector2.new(360, 360)
+				Wind2.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0,-3,0),NumberSequenceKeypoint.new(1,0,0)})
+				Wind2.Texture = [[rbxassetid://1053548563]]
+				Wind2.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(1,1,0)})
+				Wind2.Name = [[Wind2]]
+				Wind2.Parent = BlackFlashHit
+
+				Sparks.Brightness = 15
+				Sparks.Color = ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.new(1,0,0),0),ColorSequenceKeypoint.new(1,Color3.new(1,0,0),0)})
+				Sparks.Drag = 7
+				Sparks.EmissionDirection = Enum.NormalId.Front
+				Sparks.Enabled = false
+				Sparks.Lifetime = NumberRange.new(0.8,1.3)
+				Sparks.Orientation = Enum.ParticleOrientation.VelocityParallel
+				Sparks.Rate = 400
+				Sparks:Emit(20)
+				Sparks.Rotation = NumberRange.new(90,90)
+				Sparks.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,4.02858,3.04993),NumberSequenceKeypoint.new(0.205642,1.84193,1.74011),NumberSequenceKeypoint.new(1,0,0)})
+				Sparks.Speed = NumberRange.new(40,200)
+				Sparks.SpreadAngle = Vector2.new(360, 360)
+				Sparks.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0,0,0),NumberSequenceKeypoint.new(0.231642,5.1956,0),NumberSequenceKeypoint.new(0.32206,0.844828,0),NumberSequenceKeypoint.new(0.46806,4.5586,0),NumberSequenceKeypoint.new(0.49206,0.000789245,0),NumberSequenceKeypoint.new(0.51806,3.78691,0),NumberSequenceKeypoint.new(0.56206,1.97825,0),NumberSequenceKeypoint.new(0.64006,2.28498,0),NumberSequenceKeypoint.new(0.72006,0.104659,0),NumberSequenceKeypoint.new(1,-1.15485,0)})
+				Sparks.Texture = [[rbxassetid://15407518755]]
+				Sparks.Name = [[Sparks]]
+				Sparks.Parent = BlackFlashHit
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local function checkProximityAndHealth()
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local otherHumanoid = otherPlayer.Character:FindFirstChild("Humanoid")
+            local otherRoot = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if otherHumanoid and otherRoot and otherHumanoid.Health <= 20 then
+                local distance = (humanoidRootPart.Position - otherRoot.Position).Magnitude
+                if distance < 10 then
+                    return true -- Low health target is nearby
+                end
+            end
+        end
+    end
+
+    local npc = workspace.Live:FindFirstChild("Weakest Dummy")
+    if npc then
+        local npcHumanoid = npc:FindFirstChild("Humanoid")
+        local npcRoot = npc:FindFirstChild("HumanoidRootPart")
+        if npcHumanoid and npcRoot and npcHumanoid.Health <= 20 then
+            local distance = (humanoidRootPart.Position - npcRoot.Position).Magnitude
+            if distance < 10 then
+                return true -- Low health NPC is nearby
+            end
+        end
+    end
+    return false -- No low health target is nearby
+end
+
+local function playSound()
+    -- Only play sound if a low health target is nearby
+    if not checkProximityAndHealth() then
+        return
+    end
+
+    task.spawn(function()
+        local function GetGitSound(GithubSnd, SoundName)
+            local url = GithubSnd
+            if not isfile(SoundName .. ".mp3") then
+                writefile(SoundName .. ".mp3", game:HttpGet(url))
+            end
+            local sound = Instance.new("Sound")
+            sound.SoundId = (getcustomasset or getsynasset)(SoundName .. ".mp3")
+            return sound
+        end
+
+        local Clock = GetGitSound("https://github.com/Giahao135/Audio/blob/main/REMEMBERJJK2.mp3?raw=true", "REMEMBER2")
+
+        Clock.Parent = workspace
+        Clock.Volume = 4
+        Clock.TimePosition = 2.1
+        Clock:Play()
+
+        -- Fade-out logic
+        local fadeOutDuration = 7 -- duration in seconds for the fade-out
+        local fadeOutStep = 0.1 -- time in seconds between each volume decrease
+        task.wait(2) -- Wait before starting the fade-out (optional)
+
+        for i = 1, fadeOutDuration / fadeOutStep do
+            Clock.Volume = Clock.Volume - (16 / (fadeOutDuration / fadeOutStep)) -- Gradually reduce volume
+            task.wait(fadeOutStep)
+        end
+
+        Clock:Stop()
+        Clock:Destroy()
+    end)
+end
+
+playSound() -- Only executes if a low health target is close
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+local triggered = false
+
+local function impactframe()
+    if triggered then return end
+    triggered = true
+
+    local light = Instance.new("Highlight", character)
+    local cc = Instance.new("ColorCorrectionEffect", game.Lighting)
+    light.OutlineTransparency = 1
+    light.FillTransparency = 0
+    light.FillColor = Color3.new(0, 0, 0)
+    cc.Brightness = 1
+
+    wait(0.05)
+    light.FillColor = Color3.new(1, 1, 1)
+    cc.Brightness = -1
+    wait(0.05)
+
+    cc:Destroy()
+    light:Destroy()
+end
+
+local function checkProximity()
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local otherRoot = otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if otherRoot then
+                local distance = (humanoidRootPart.Position - otherRoot.Position).Magnitude
+                if distance < 10 then
+                    return true -- Indicate a target is in proximity
+                end
+            end
+        end
+    end
+
+    local npc = workspace.Live:FindFirstChild("Weakest Dummy")
+    if npc then
+        local npcRoot = npc:FindFirstChild("HumanoidRootPart")
+        if npcRoot then
+            local distance = (humanoidRootPart.Position - npcRoot.Position).Magnitude
+            if distance < 10 then
+                return true -- Indicate a target is in proximity
+            end
+        end
+    end
+    return false -- Indicate no target is in proximity
+end
+
+local function executeImpact()
+    if checkProximity() then
+        impactframe()
+    end
+end
+
+executeImpact() -- Only check proximity once when script executes
+
+
+delay(0.7, function()
+
+    Anim:Stop()
+
+end)
+
+
+    end
+
+end
+
+--[[END OF MOVE 1 ANIM]]
+
+--[[Move 2]]
+
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 10466974800
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+task.spawn(function()
+
+local function GetGitSound(GithubSnd,SoundName)
+                local url=GithubSnd
+                if not isfile(SoundName..".mp3") then
+                    writefile(SoundName..".mp3", game:HttpGet(url))
+                end
+                local sound=Instance.new("Sound")
+                sound.SoundId=(getcustomasset or getsynasset)(SoundName..".mp3")
+                return sound
+            end
+   local Clock = GetGitSound("https://github.com/Giahao135/Audio/blob/main/sukuna-kai.mp3?raw=true","Kai!")
+
+                Clock.Parent = Workspace
+
+                Clock.Volume = 3
+                Clock.TimePosition = 0.4
+
+                Clock:Play()
+end)
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://116153572280464"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(1)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1)
+
+local ambatukam = game.Players.LocalPlayer.Character:WaitForChild("BarrageBind")
+ambatukam:Destroy()
+
+
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+
+        if not RunService:IsClient() then return end
+
+        local player = Players.LocalPlayer
+        local character = player.Character or player.CharacterAdded:Wait()
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+        local effectPart = Instance.new("Part")
+        effectPart.Anchored = true
+        effectPart.CanCollide = false
+        effectPart.Transparency = 1
+        effectPart.Parent = workspace
+
+        local forward = humanoidRootPart.CFrame.LookVector
+        local effectCFrame = CFrame.new(
+            humanoidRootPart.Position + (forward * 5),
+            humanoidRootPart.Position + (forward * 5) + forward
+        )
+        effectPart.CFrame = effectCFrame
+
+        local function createFolderPath(parent, path)
+            if not path or path == "" then return parent end
+            
+            local current = parent
+            for _, name in ipairs(string.split(path, ".")) do
+                local existing = current:FindFirstChild(name)
+                if not existing then
+                    local new = Instance.new("Folder")
+                    new.Name = name
+                    new.Parent = current
+                    current = new
+                else
+                    current = existing
+                end
+            end
+            return current
+        end
+
+        local particles = {}
+    
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(1.000000, 1.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.030000, 0.130000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(380.000000, -380.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityParallel
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 100
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 380
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.128814, 2.250000), NumberSequenceKeypoint.new(0.638983, -2.550000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(200.000000, 200.000000)
+                particle.Brightness = 10
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 6.322574), NumberSequenceKeypoint.new(0.157880, 20.009073), NumberSequenceKeypoint.new(0.699880, 9.964283), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0.7896716594696045
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 100
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(0.000000, 0.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://12622311066"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Front
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 1
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(10.000000, 20.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.070000, 0.120000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                particle.SpreadAngle = Vector2.new(380.000000, -380.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityParallel
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(0.000000, 0.000000, 0.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(0.000000, 0.000000, 0.000000))})
+                particle.Drag = 100
+                particle.FlipbookStartRandom = true
+                particle.TimeScale = 1
+                particle.VelocitySpread = 380
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.293220, 1.050000), NumberSequenceKeypoint.new(1.000000, 1.950000)})
+                particle.Speed = NumberRange.new(200.000000, 200.000000)
+                particle.Brightness = 5
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.049355), NumberSequenceKeypoint.new(0.064036, 4.051057), NumberSequenceKeypoint.new(0.320036, 4.948159), NumberSequenceKeypoint.new(0.720036, 4.133281), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 100
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://12968775364"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(1.000000, 1.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.180000, 0.180000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(-360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.687500), NumberSequenceKeypoint.new(0.521670, 0.931250), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.FacingCamera
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 5
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = -360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(0.000457, 0.000457)
+                particle.Brightness = 0.009999999776482582
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.100000, 1.122163), NumberSequenceKeypoint.new(0.200000, 1.869449), NumberSequenceKeypoint.new(0.300000, 2.378182), NumberSequenceKeypoint.new(0.400000, 2.732057), NumberSequenceKeypoint.new(0.500000, 2.984722), NumberSequenceKeypoint.new(0.600000, 3.171799), NumberSequenceKeypoint.new(0.700000, 3.317635), NumberSequenceKeypoint.new(0.800000, 3.439248), NumberSequenceKeypoint.new(0.900000, 3.548759), NumberSequenceKeypoint.new(1.000000, 3.654925)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 20
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "https://assetgame.roblox.com/asset/?id=11037301979&assetName=Circle8"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Left
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 1
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(1.000000, 1.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.100000, 0.100000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(380.000000, -380.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.631180, 0.922333), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 5
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 380
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 5.000000), NumberSequenceKeypoint.new(1.000000, 5.000000)})
+                particle.Speed = NumberRange.new(0.001226, 0.001226)
+                particle.Brightness = 0.009999999776482582
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.100000, 0.357917), NumberSequenceKeypoint.new(0.200000, 0.582222), NumberSequenceKeypoint.new(0.300000, 0.719227), NumberSequenceKeypoint.new(0.400000, 0.806990), NumberSequenceKeypoint.new(0.500000, 0.868837), NumberSequenceKeypoint.new(0.600000, 0.917845), NumberSequenceKeypoint.new(0.700000, 0.961258), NumberSequenceKeypoint.new(0.800000, 1.003139), NumberSequenceKeypoint.new(0.900000, 1.045795), NumberSequenceKeypoint.new(1.000000, 1.090545)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0.061288319528102875
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 15
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-380.000000, 380.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://13172482223"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Front
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 1
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(10.000000, 20.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.100000, 1.000000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                particle.SpreadAngle = Vector2.new(360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 1.000000), NumberSequenceKeypoint.new(0.097479, 1.000000), NumberSequenceKeypoint.new(0.107563, 0.000000), NumberSequenceKeypoint.new(0.220168, 0.000000), NumberSequenceKeypoint.new(0.230252, 1.000000), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 75
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 2.180328), NumberSequenceKeypoint.new(1.000000, 3.000000)})
+                particle.Speed = NumberRange.new(100.000000, 100.000000)
+                particle.Brightness = 5
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.022548), NumberSequenceKeypoint.new(0.064036, 1.850789), NumberSequenceKeypoint.new(0.320036, 2.260644), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 1000
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-380.000000, 380.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://12981508259"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = -5
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(2.000000, 10.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.200000, 0.300000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.600000, 0.000000), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 0
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(0.010065, 0.010065)
+                particle.Brightness = 6
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 3.115749), NumberSequenceKeypoint.new(0.480088, 5.290400), NumberSequenceKeypoint.new(1.000000, 5.558560)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(500.000000, 800.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Inward
+                particle.Rate = 20
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 0.3400000035762787
+                particle.Texture = "rbxassetid://12597716531"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(2.000000, 10.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.200000, 0.300000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.600000, 0.000000), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(0.333333, 1.000000, 0.364706)), ColorSequenceKeypoint.new(1.000000, Color3.new(0.333333, 1.000000, 0.364706))})
+                particle.Drag = 0
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(0.010065, 0.010065)
+                particle.Brightness = 0
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 3.115749), NumberSequenceKeypoint.new(0.480088, 5.290400), NumberSequenceKeypoint.new(1.000000, 5.558560)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(500.000000, 800.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Inward
+                particle.Rate = 20
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 0.3400000035762787
+                particle.Texture = "rbxassetid://12597716531"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(8.000000, 16.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.050000, 0.100000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                particle.SpreadAngle = Vector2.new(360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 5
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(0.010065, 0.010065)
+                particle.Brightness = 5
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 3.490857), NumberSequenceKeypoint.new(0.512036, 2.665890), NumberSequenceKeypoint.new(1.000000, 1.373607)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(1200.000000, 1600.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Inward
+                particle.Rate = 20
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 0.3400000035762787
+                particle.Texture = "rbxassetid://12937448082"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Bottom
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(8.000000, 10.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.150000, 0.200000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                particle.SpreadAngle = Vector2.new(360.000000, 360.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.662500), NumberSequenceKeypoint.new(1.000000, 1.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityPerpendicular
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(0.000000, 0.000000, 0.000000))})
+                particle.Drag = 5
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 360
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Speed = NumberRange.new(0.010065, 0.010065)
+                particle.Brightness = 7
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 1.837679), NumberSequenceKeypoint.new(0.136036, 2.733438), NumberSequenceKeypoint.new(0.324036, 3.433953), NumberSequenceKeypoint.new(0.508036, 3.805655), NumberSequenceKeypoint.new(1.000000, 4.223331)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(800.000000, 800.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Inward
+                particle.Rate = 20
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 0.3400000035762787
+                particle.Texture = "rbxassetid://12967823088"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.Loop
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(10.000000, 20.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.070000, 0.120000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.None
+                particle.SpreadAngle = Vector2.new(380.000000, -380.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Orientation = Enum.ParticleOrientation.FacingCamera
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 100
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 380
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 1.500000), NumberSequenceKeypoint.new(0.123729, 3.000000), NumberSequenceKeypoint.new(0.350036, 3.456482), NumberSequenceKeypoint.new(1.000000, -3.111661)})
+                particle.Speed = NumberRange.new(200.000000, 200.000000)
+                particle.Brightness = 10
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.049355), NumberSequenceKeypoint.new(0.064036, 4.051057), NumberSequenceKeypoint.new(0.348036, 7.709754), NumberSequenceKeypoint.new(0.720036, 4.133281), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0.7896716594696045
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 100
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(-360.000000, 360.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://12967057989"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = 0
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+            do
+                local particle = Instance.new("ParticleEmitter")
+                local parent = effectPart
+                        particle.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
+                particle.FlipbookFramerate = NumberRange.new(10.000000, 20.000000)
+                particle.LightInfluence = 0
+                particle.Lifetime = NumberRange.new(0.150000, 0.500000)
+                particle.FlipbookLayout = Enum.ParticleFlipbookLayout.Grid4x4
+                particle.SpreadAngle = Vector2.new(380.000000, -380.000000)
+                particle.LockedToPart = false
+                particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(1.000000, 0.000000)})
+                particle.Orientation = Enum.ParticleOrientation.VelocityParallel
+                particle.Color = ColorSequence.new({ColorSequenceKeypoint.new(0.000000, Color3.new(1.000000, 1.000000, 1.000000)), ColorSequenceKeypoint.new(1.000000, Color3.new(1.000000, 1.000000, 1.000000))})
+                particle.Drag = 100
+                particle.FlipbookStartRandom = false
+                particle.TimeScale = 1
+                particle.VelocitySpread = 380
+                particle.Squash = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.000000), NumberSequenceKeypoint.new(0.293220, 0.262500), NumberSequenceKeypoint.new(0.523729, 1.387500), NumberSequenceKeypoint.new(1.000000, 1.620874)})
+                particle.Speed = NumberRange.new(200.000000, 200.000000)
+                particle.Brightness = 5
+                particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0.000000, 0.049355), NumberSequenceKeypoint.new(0.064036, 4.051057), NumberSequenceKeypoint.new(0.320036, 4.948159), NumberSequenceKeypoint.new(1.000000, 5.609406)})
+                particle.Enabled = false
+                particle.Acceleration = Vector3.new(0.000000, 0.000000, 0.000000)
+                particle.RotSpeed = NumberRange.new(0.000000, 0.000000)
+                particle.ZOffset = 0
+                particle.ShapeInOut = Enum.ParticleEmitterShapeInOut.Outward
+                particle.Rate = 100
+                particle.VelocityInheritance = 0
+                particle.Rotation = NumberRange.new(0.000000, 0.000000)
+                particle.ShapePartial = 1
+                particle.Texture = "rbxassetid://12981508259"
+                particle.FlipbookMode = Enum.ParticleFlipbookMode.OneShot
+                particle.EmissionDirection = Enum.NormalId.Top
+                particle.FlipbookIncompatible = "Particle texture must be 1024 by 1024 to use flipbooks."
+                particle.Shape = Enum.ParticleEmitterShape.Box
+                particle.LightEmission = -15
+
+                particle.Parent = parent
+                table.insert(particles, particle)
+            end
+        
+        for _, particle in ipairs(particles) do
+            particle.Enabled = true
+        end
+
+        for _, particle in ipairs(particles) do
+    local lifetime = particle.Lifetime.Max
+    task.spawn(function()
+        task.wait(lifetime * 10.4)
+        particle.Enabled = false
+    end)
+end
+
+task.delay(1.2, function()
+    effectPart:Destroy()
+end)
+
+Wait(0)
+
+local Sound = 13364832820
+local Volume = 1.5
+local Speed = 3
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+wait(0.7)
+
+local Sound = 13364354315
+local Volume = 1.5
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+delay(0.3, function()
+
+    Anim:Stop()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://114095570398448"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 0
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(1)
+
+wait(0)
+
+local Test = game:GetService("ReplicatedStorage").Resources.KJEffects.UPPERCUTSMOKE.UPPERCUTSMOKE
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(20)
+        child.Enabled = true
+    end
+end
+
+end)
+
+
+    end
+
+end
+
+--[[END OF MOVE 2 ANIM]]
+
+--[[Move 3]]
+
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 10471336737
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://120992533725535"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1.6)
+
+local Sound = 93883860842763
+local Volume = 3
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+local L = game.ReplicatedStorage.Emotes.redEnergy
+local CEClones = {}
+local Clones = 1
+
+local rightArm = game.Players.LocalPlayer.Character:WaitForChild("Right Arm")
+local leftArm = game.Players.LocalPlayer.Character:WaitForChild("Right Arm")
+
+local function D()
+    for _, clone in ipairs(CEClones) do
+        if clone and clone.Parent then
+            clone:Destroy()
+        end
+    end
+    CEClones = {}
+end
+
+for i = 1, Clones do
+
+    local CERight = L:Clone()  
+    CERight.Parent = rightArm
+    CERight.CFrame = rightArm.CFrame * CFrame.new(0, -0.8, 0)
+    CERight.Anchored = false
+
+    local weldRight = Instance.new("WeldConstraint")
+    weldRight.Parent = CERight
+    weldRight.Part0 = rightArm
+    weldRight.Part1 = CERight
+
+    table.insert(CEClones, CERight)
+
+    for _, child in ipairs(CERight:GetChildren()) do    
+        if child:IsA("ParticleEmitter") then
+            child:Emit(1)
+            child.Enabled = true
+        end
+    end
+
+    local CELeft = L:Clone()  
+    CELeft.Parent = leftArm
+    CELeft.CFrame = leftArm.CFrame * CFrame.new(0, -0.8, 0)
+    CELeft.Anchored = false
+
+    local weldLeft = Instance.new("WeldConstraint")
+    weldLeft.Parent = CELeft
+    weldLeft.Part0 = leftArm
+    weldLeft.Part1 = CELeft
+
+    table.insert(CEClones, CELeft)
+
+    for _, child in ipairs(CELeft:GetChildren()) do    
+        if child:IsA("ParticleEmitter") then
+            child:Emit(1)
+            child.Enabled = true
+        end
+    end
+end
+
+coroutine.wrap(function()
+task.wait(1.4)
+D()
+end)()
+
+
+delay(0.4, function()
+
+    Anim:Stop()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://131492147325921"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 1.9
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(1.2)
+
+wait(1)
+
+local Test = game:GetService("ReplicatedStorage").Resources.FiveSeasonsFX.CharFX.ArmBurst.Attachment
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["Right Arm"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(4)
+        child.Enabled = false
+    end
+end
+
+end)
+
+
+    end
+
+end
+
+--[[END OF MOVE 3 ANIM]]
+
+--[[Move 4]]
+
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 12510170988
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://18170032354"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0.6
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1.1)
+
+wait(0.6)
+
+local Test = game:GetService("ReplicatedStorage").Resources.SunsetEffects.Slash2.Slash1Part:GetChildren()[2]
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(8)
+        child.Enabled = false
+    end
+end
+
+local Test = game:GetService("ReplicatedStorage").Resources.SunsetEffects.Slash2.Slash1Part.Attachment
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(1)
+        child.Enabled = false
+    end
+end
+
+local Sound = 98076270798343
+local Volume = 5
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+
+delay(0.4, function()
+
+    Anim:Stop()
+
+local Sound = 13498776114
+local Volume = 5
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+
+local Test = game:GetService("ReplicatedStorage").Resources.HeadFirstFinisher.Charge.Charge:GetChildren()[5]
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(0)
+        child.Enabled = false
+    end
+end
+
+wait(0.0001)
+
+local Test = game:GetService("ReplicatedStorage").Resources.HeadFirstFinisher.Charge.Charge:GetChildren()[5]
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(8)
+        child.Enabled = false
+    end
+end
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Function to teleport the player forward
+local function teleportPlayer()
+    -- Make character invisible
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+            part.LocalTransparencyModifier = 1 -- Client-side transparency
+        end
+    end
+
+    -- Wait 1 second before teleporting
+    task.wait(0.2)
+
+    -- Teleport player forward
+    local teleportDistance = 48 -- Change this for more distance
+    local forwardVector = humanoidRootPart.CFrame.LookVector * teleportDistance
+    humanoidRootPart.CFrame = humanoidRootPart.CFrame + forwardVector
+
+    -- Wait 0.5 seconds before making visible again
+    task.wait(0.2)
+
+    -- Make character visible again
+    for _, part in pairs(character:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+            part.LocalTransparencyModifier = 0 -- Restore client-only visibility
+        end
+    end
+end
+
+-- Call the teleportation function
+teleportPlayer()
+
+task.wait(0)
+
+local AnimAnim2 = Instance.new("Animation")
+
+AnimAnim2.AnimationId = "rbxassetid://14920779925"
+
+local Anim2 = Humanoid:LoadAnimation(AnimAnim2)
+
+
+local startTime = 3.7
+
+
+Anim:Stop()
+
+Anim2:Play()
+
+Anim2:AdjustSpeed(0)
+
+Anim2.TimePosition = startTime
+
+Anim2:AdjustSpeed(1.5)
+
+end)
+
+Wait(0.8)
+
+local Test = game:GetService("ReplicatedStorage").Resources.HeadFirstFinisher.Charge.Charge:GetChildren()[5]
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(0)
+        child.Enabled = false
+    end
+end
+
+wait(0.0001)
+
+local Test = game:GetService("ReplicatedStorage").Resources.HeadFirstFinisher.Charge.Charge:GetChildren()[5]
+local test = Test:Clone()
+test.Parent = game.Players.LocalPlayer.Character["HumanoidRootPart"]
+
+
+for _, child in ipairs(test:GetChildren()) do
+    if child:IsA("ParticleEmitter") then
+        
+        child:Emit(8)
+        child.Enabled = false
+    end
+end
+
+local Sound = 13498776114
+local Volume = 5
+local Speed = 1
+
+s= Instance.new("Sound", game.Players.LocalPlayer.Character.HumanoidRootPart)
+s.SoundId = "rbxassetid://" .. Sound
+s:Play()
+s.Volume = Volume
+s.PlaybackSpeed = Speed
+
+
+    end
+
+end
+
+--[[END OF MOVE 4 ANIM]]
+
+--[[Wall combo]]
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+local animationId = 15955393872
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://15943915877"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0.05
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1)
+
+
+    end
+
+end
+
+--[[END OF WALL COMBO ANIM]]
+
+--[[Ult Activation]]
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 12447707844
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://17106858586 "
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1)
+
+    end
+
+end
+--[[END OF ULT ACTIVATION ANIM]]
+
+--[[Dash]]
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 0
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://0"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(1.3)
+
+
+delay(1.8, function()
+
+    Anim:Stop()
+
+end)
+
+
+    end
+
+end
+
+--[[END OF DASH ANIM]]
+
+--[[Uppercut]]
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 0
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://0"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 1.3
+
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(0.7)
+
+
+    end
+
+end
+
+--[[END OF UPPERCUT ANIM]]
+
+--[[Downslam]]
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local animationId = 0
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local function onAnimationPlayed(animationTrack)
+
+    if animationTrack.Animation.AnimationId == "rbxassetid://" .. animationId then
+
+local p = game.Players.LocalPlayer
+
+local Humanoid = p.Character:WaitForChild("Humanoid")
+
+
+for _, animTrack in pairs(Humanoid:GetPlayingAnimationTracks()) do
+
+    animTrack:Stop()
+
+end
+
+
+local AnimAnim = Instance.new("Animation")
+
+AnimAnim.AnimationId = "rbxassetid://0"
+
+local Anim = Humanoid:LoadAnimation(AnimAnim)
+
+
+local startTime = 0
+
+
+wait(0.2)
+
+Anim:Play()
+
+Anim:AdjustSpeed(0)
+
+Anim.TimePosition = startTime
+
+Anim:AdjustSpeed(6)
+
+
+    end
+
+end
+
+--[[END OF DOWNSLAM ANIM]]
+
+--[[Punch anims]]
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoid = character:WaitForChild("Humanoid")
+
+
+local animationIdsToStop = {
+
+    [0] = true, --downslam finisher
+
+    [0] = true, --punch1
+
+    [0] = true, --punch2
+
+    [0] = true, --punch3
+
+    [0] = true, --punch4
+
+}
+
+
+local replacementAnimations = {
+
+    ["0"] = "rbxassetid://0", --punch1
+
+    ["0"] = "rbxassetid://0", --punch2
+
+    ["0"] = "rbxassetid://0", --punch3
+
+    ["0"] = "rbxassetid://0", --punch4
+
+    ["0"] = "rbxassetid://0", --downslam finisher
+
+    ["0"] = "rbxassetid://0" --punch idk
+
+}
+
+
+local queue = {}
+
+local isAnimating = false
+
+
+local function playReplacementAnimation(animationId)
+
+    if isAnimating then
+
+        table.insert(queue, animationId)
+
+        return
+
+    end
+
+   
+
+    isAnimating = true
+
+    local replacementAnimationId = replacementAnimations[tostring(animationId)]
+
+    if replacementAnimationId then
+
+        local AnimAnim = Instance.new("Animation")
+
+        AnimAnim.AnimationId = replacementAnimationId
+
+        local Anim = humanoid:LoadAnimation(AnimAnim)
+
+        Anim:Play()
+
+       
+
+        Anim.Stopped:Connect(function()
+
+            isAnimating = false
+
+            if #queue > 0 then
+
+                local nextAnimationId = table.remove(queue, 1)
+
+                playReplacementAnimation(nextAnimationId)
+
+            end
+
+        end)
+
+    else
+
+        isAnimating = false
+
+    end
+
+end
+
+
+local function stopSpecificAnimations()
+
+    for _, track in ipairs(humanoid:GetPlayingAnimationTracks()) do
+
+        local animationId = tonumber(track.Animation.AnimationId:match("%d+"))
+
+        if animationIdsToStop[animationId] then
+
+            track:Stop()
+
+        end
+
+    end
+
+end
+
+
+local function onAnimationPlayed(animationTrack)
+
+    local animationId = tonumber(animationTrack.Animation.AnimationId:match("%d+"))
+
+    if animationIdsToStop[animationId] then
+
+        stopSpecificAnimations()
+
+        animationTrack:Stop()
+
+       
+
+        local replacementAnimationId = replacementAnimations[tostring(animationId)]
+
+        if replacementAnimationId then
+
+            playReplacementAnimation(animationId)
+
+        end
+
+    end
+
+end
+
+
+humanoid.AnimationPlayed:Connect(onAnimationPlayed)
+
+
+local player = game.Players.LocalPlayer
+
+local character = player.Character or player.CharacterAdded:Wait()
+
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+
+local function onBodyVelocityAdded(bodyVelocity)
+
+    if bodyVelocity:IsA("BodyVelocity") then
+
+        bodyVelocity.Velocity = Vector3.new(bodyVelocity.Velocity.X, 0, bodyVelocity.Velocity.Z)
+
+    end
+
+end
+
+
+character.DescendantAdded:Connect(onBodyVelocityAdded)
+
+
+for _, descendant in pairs(character:GetDescendants()) do
+
+    onBodyVelocityAdded(descendant)
+
+end
+
+
+player.CharacterAdded:Connect(function(newCharacter)
+
+    character = newCharacter
+
+    humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+
+    character.DescendantAdded:Connect(onBodyVelocityAdded)
+
+   
+
+    for _, descendant in pairs(character:GetDescendants()) do
+
+        onBodyVelocityAdded(descendant)
+
+    end
+
+end)
